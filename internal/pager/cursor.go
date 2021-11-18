@@ -67,6 +67,8 @@ func (c *Cursor) Insert(record *storage.Record) error {
 // Next advances the cursor to the next record
 // returns true if there is a record false otherwise
 func (c *Cursor) Next() (bool, error) {
+
+	// 读取当前 Page
 	p, err := c.pager.Read(c.currentPage)
 	if err != nil {
 		return false, err

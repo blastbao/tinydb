@@ -40,8 +40,8 @@ type Field struct {
 
 // Record is a set of fields
 type Record struct {
-	RowID  uint32
-	Fields []*Field
+	RowID  uint32		// ID
+	Fields []*Field		// 字段
 }
 
 // NewRecord creates a database record from a set of fields

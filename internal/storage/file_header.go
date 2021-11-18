@@ -7,16 +7,28 @@ import (
 )
 
 // FileHeader represents a database file header
+//
+// 数据库文件头，共 2 + 4 + 4 + 4 = 14 Bytes
 type FileHeader struct {
 	// 16-17	PageSize	uint16	Size of database page
+	// 页大小
 	PageSize uint16
-	// 24-27	FileChangeCounter	uint32	Initialized to 0. Each time a modification is made to the database, this counter is increased.
+
+	// 24-27	FileChangeCounter	uint32	Initialized to 0.
+	// Each time a modification is made to the database, this counter is increased.
+	// 修改次数
 	FileChangeCounter uint32
-	// 40-43	SchemaVersion	uint32	Initialized to 0. Each time the database schema is modified, this counter is increased.
+
+	// 40-43	SchemaVersion	uint32	Initialized to 0.
+	// Each time the database schema is modified, this counter is increased.
+	// 更改 Schema 数目
 	SchemaVersion uint32
+
 	// Size in pages of the database
+	// 页数目
 	SizeInPages uint32
 }
+
 
 // NewFileHeader creates a new FileHeader
 func NewFileHeader(pageSize uint16) FileHeader {
@@ -77,11 +89,12 @@ func (h FileHeader) WriteTo(w io.Writer) (int64, error) {
 }
 
 // ParseFileHeader deserializes a FileHeader
+//
+// 解析文件头
 func ParseFileHeader(buf []byte) (FileHeader, error) {
 	if len(buf) != 100 {
 		return FileHeader{}, fmt.Errorf("unexpected header length")
 	}
-
 	return FileHeader{
 		PageSize:          binary.BigEndian.Uint16(buf[16:18]),
 		FileChangeCounter: binary.BigEndian.Uint32(buf[24:28]),

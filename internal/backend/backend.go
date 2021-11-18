@@ -93,6 +93,7 @@ func (b *Backend) Exec(ctx context.Context, stmt *virtualmachine.PreparedStateme
 
 	// ready program for execution
 	exitCh := make(chan error, 1)
+
 	instance := &ProgramInstance{
 		Pid:     pid,
 		Output:  program.Output(),
